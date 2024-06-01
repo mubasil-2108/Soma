@@ -4,6 +4,9 @@ import * as appSvgs from './appSvgs'
 const appImages = {
     logo: require('../../../assets/images/Logo.png'),
     confirm: require('../../../assets/images/confirm.png'),
+    product1:require('../../../assets/images/product1.png'),
+    product2:require('../../../assets/images/product2.png'),
+
     // book: require('../../../assets/images/menu_book.png'),
     backgroundImage: require('../../../assets/images/backgroundImage.png'),
     profile: require('../../../assets/images/PFP.png'),
@@ -15,17 +18,21 @@ const appImages = {
     user5: 'https://i.pinimg.com/474x/c2/76/05/c2760595530e6633ae778a60de74f127.jpg',
     noUser: 'https://icon-library.com/images/no-user-image-icon/no-user-image-icon-27.jpg',
 
-    materCardLogo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Mastercard_2019_logo.svg/800px-Mastercard_2019_logo.svg.png',
-    visaCardLogo:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png',
+    materCardLogo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Mastercard_2019_logo.svg/800px-Mastercard_2019_logo.svg.png',
+    visaCardLogo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png',
 }
 
 const appIcons = {
     eye: require('../../../assets/icons/eye.png'),
-    
+    drawer: require('../../../assets/icons/drawer.png'),
+    products: require('../../../assets/icons/products.png'),
+    home: require('../../../assets/icons/home.png'),
+    cart: require('../../../assets/icons/cart.png'),
+    add:require('../../../assets/icons/add.png'),
+
     security: require('../../../assets/icons/security.png'),
     lock: require('../../../assets/icons/lock.png'),
     mail: require('../../../assets/icons/mail.png'),
-    
     logIn: require('../../../assets/icons/logIn.png'),
     notification: require('../../../assets/icons/notificationBell.png'),
     edit: require('../../../assets/icons/edit.png'),
@@ -55,8 +62,9 @@ const appFonts = {
     poppinsSemiBold: 'Poppins-SemiBold',
     poppinsRegular: 'Poppins-Regular',
 
-    interRegular: 'Inter-Regular'
+    interRegular: 'Inter-Regular',
+    interBold:'Inter-Bold'
 
-  }
+}
 
-export { appImages, appIcons, appSvgs,appFonts }
+export { appImages, appIcons, appSvgs, appFonts }

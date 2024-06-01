@@ -4,12 +4,13 @@ import { totalSize, width, height } from 'react-native-dimension';
 import { Logos, Toasts, Icons, Text, TextInputs, Buttons, ScrollViews, Wrapper, Spacer, Headers, CheckBoxes, StatusBars } from '../../../components';
 import { appStyles, colors, responsiveFontSize, responsiveHeight, routes, appSvgs, responsiveWidth, sizes, appFonts, fontSizes, appIcons } from '../../../services';
 import { useHooks } from './hooks';
+import { Signup } from '../../../services/utilities/firebaseUtil/firebaseAuth';
 export default function Index(props) {
     const { navigate, } = props.navigation
 
     const { toggleCheckbox, isChecked, email, setEmail, password, setPassword, togglePasswordVisibility, showPassword, name, setName, confirmPassword, setConfirmPassword, toggleConfirmPasswordVisibility, showConfirmPassword } = useHooks()
     return (
-        <Wrapper isMain background1 style={[{}]}>
+        <Wrapper isMain backgroundColor={colors.appBgColor2} style={[{}]}>
             <ScrollViews.KeyboardAvoiding>
                 <StatusBars.Dark backgroundColor={colors.statusBarColor1} />
 
@@ -125,7 +126,7 @@ export default function Index(props) {
                                 color: colors.appTextColor2
                             }} />
                         <Wrapper flexDirectionRow alignItemsCenter marginHorizontalBase marginVerticalMedium>
-                            <CheckBoxes.Primary onPress={toggleCheckbox} checked={isChecked} uncheckedIconColor={colors.iconColor2} checkedIconColor={colors.iconColor3} checkIconsize={sizes.icons.medium} />
+                            <CheckBoxes.Primary onPress={toggleCheckbox} checked={isChecked} uncheckedIconColor={colors.iconColor5} checkedIconColor={colors.iconColor6} checkIconsize={sizes.icons.medium} />
                             <Text style={{ fontSize: fontSizes.regular, color: colors.appTextColor1, fontFamily: appFonts.interRegular }}>I agree to the{' '}
                                 <Text style={{ color: colors.appTextColor4 }}>Terms of Service</Text> and{' '}
                                 <Text style={{ color: colors.appTextColor4 }}>Privacy{'\n'}Policy</Text>
@@ -133,8 +134,10 @@ export default function Index(props) {
                         </Wrapper>
                         <Wrapper marginHorizontalSmall >
                             <Buttons.Colored
+                                // isLoading
+                                // disabled
                                 buttonColor={colors.buttonColor2}
-                                onPress={() => { navigate(routes.app) }}
+                                onPress={()=>{Signup(email,password,setEmail,setPassword, isChecked)}}
                                 buttonStyle={{
                                     height: height(6), borderRadius: width(2),
                                     shadowColor: '#000000',

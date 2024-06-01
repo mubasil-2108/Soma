@@ -50,7 +50,8 @@ export const sizes = {
     tiny: responsiveFontSize(14),
     small: responsiveFontSize(18),
     medium: responsiveFontSize(24),
-    mediumTiny: responsiveFontSize(20),
+    mediumLarge: responsiveFontSize(25),
+    largeTiny: responsiveFontSize(30),
     large:responsiveFontSize(34),
     xl: responsiveFontSize(42),
     xxl: responsiveFontSize(48)
@@ -66,7 +67,9 @@ export const sizes = {
     xLSmall: 100,
     xL: 170,
     logoHeight: responsiveHeight(8),
-    logoWidth: responsiveWidth(40)
+    logoWidth: responsiveWidth(40),
+    productHeight: responsiveHeight(13),
+    productWidth: responsiveWidth(40)
   }
 }
 
@@ -84,6 +87,6 @@ export const fontSizes = {
   regular: responsiveFontSize(14),
   small: responsiveFontSize(12),
   tiny: responsiveFontSize(10),
-  xTiny: responsiveFontSize(6),
+  xTiny: responsiveFontSize(9),
   xxTiny: responsiveFontSize(4)
 }

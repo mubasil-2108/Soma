@@ -2,21 +2,21 @@ import React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StyleSheet } from 'react-native';
 import { width, height } from 'react-native-dimension';
-import { appFonts, colors, fontSizes, responsiveFontSize, routes, tabs } from "../../services";
+import { appFonts, appIcons, colors, fontSizes, responsiveFontSize, responsiveHeight, responsiveWidth, routes, tabs } from "../../services";
 import { Images, Wrapper } from "../../components";
 import { Icon } from "@rneui/base";
 import * as App from '../../screens/app';
 import Text from "../../components/text";
 
 const BottomTabStack = createBottomTabNavigator();
-const tabIconSize = responsiveFontSize(25);
+const tabIconSize = responsiveFontSize(22);
 
-const TabIcon = ({ color, iconName, iconType, focused, image, tabBarLabel }) => {
+const TabIcon = ({ color, iconName, iconType, focused, image, tabBarLabel,customStyle }) => {
     const activeColor = colors.iconColor3;  // define active color
     const inactiveColor = colors.iconColor4;  // define inactive color
 
     return (
-        <Wrapper justifyContentCenter alignItemsCenter paddingVerticalSmall style={styles.iconWrapper(focused)}>
+        <Wrapper justifyContentCenter alignItemsCenter style={styles.iconWrapper(focused)}>
             {
                 !image ?
                     <Icon 
@@ -27,12 +27,13 @@ const TabIcon = ({ color, iconName, iconType, focused, image, tabBarLabel }) => 
                     />
                     :
                     <Images.Round 
-                        source={{ uri: image }} 
+                    // { uri: image }
+                        source={image} 
                         size={tabIconSize} 
-                        style={{ ...styles.iconImage, opacity: focused ? 1 : 0.5 }} 
+                        style={{tintColor: focused ? activeColor : inactiveColor, resizeMode:'contain' ,  opacity: focused ? 1 : 0.5, ...customStyle }} 
                     />
             }
-            <Text isTiny style={{ color: focused ? activeColor : inactiveColor, fontFamily:appFonts.interRegular }}>{tabBarLabel}</Text>
+            <Text isTiny style={{textAlign:'center', backgroundColor:colors.transparent, color: focused ? activeColor : inactiveColor, fontFamily:appFonts.interRegular }}>{tabBarLabel}</Text>
         </Wrapper>
     );
 }
@@ -53,8 +54,10 @@ export default function BottomTabNavigation() {
                 options={{
                     tabBarIcon: ({ color, size, focused }) => (
                         <TabIcon 
-                            iconName='home' 
-                            iconType='feather' 
+                            // iconName='home' 
+                            // iconType='feather'
+                            image={appIcons.home} 
+                            customStyle={{borderRadius:0}}
                             color={color} 
                             focused={focused} 
                             tabBarLabel='Home' 
@@ -68,8 +71,10 @@ export default function BottomTabNavigation() {
                 options={{
                     tabBarIcon: ({ color, size, focused }) => (
                         <TabIcon 
-                            iconName='globe' 
-                            iconType='feather' 
+                            // iconName='globe' 
+                            // iconType='feather' 
+                            image={appIcons.products}
+                            customStyle={{borderRadius:0}}
                             color={color} 
                             focused={focused} 
                             tabBarLabel='Product' 
@@ -83,8 +88,8 @@ export default function BottomTabNavigation() {
                 options={{
                     tabBarIcon: ({ color, size, focused }) => (
                         <TabIcon 
-                            iconName='shopping-cart' 
-                            iconType='feather' 
+                            image={appIcons.cart}
+                            customStyle={{borderRadius:0}}
                             color={color} 
                             focused={focused} 
                             tabBarLabel='Cart' 
@@ -115,14 +120,15 @@ const styles = StyleSheet.create({
     iconWrapper: (focused) => ({
         borderRadius: width(3),
         backgroundColor: focused ? colors.appColor2 : colors.appColor1,
-        width: width(17),
-        height: height(6),
+        width: responsiveWidth(18),
+        height: responsiveHeight(6),
         justifyContent: 'center',
         marginTop: 0,
         alignItems: 'center',
         // paddingVertical: 5
     }),
     iconImage: {
-        opacity: 0.5
+        opacity: 0.5,
+        resizeMode:'contain'
     }
 });

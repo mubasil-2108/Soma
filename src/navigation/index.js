@@ -30,12 +30,12 @@ export default function Navigation() {
             >
                 <MainStack.Navigator
                     screenOptions={{ headerShown: false }}
-                    initialRouteName={routes.auth}
+                    initialRouteName={routes.app}
                 >
-                    <MainStack.Screen
+                    {/* <MainStack.Screen
                         name={routes.auth}
                         component={AuthNavigation}
-                    />
+                    /> */}
                     <MainStack.Screen
                         name={routes.app}
                         component={AppNavigation}

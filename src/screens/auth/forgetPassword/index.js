@@ -11,7 +11,7 @@ export default function Index(props) {
 
     const { email, setEmail,modalVisibility, modalVisible } = useHooks()
     return (
-        <Wrapper isMain background1 style={[{}]}>
+        <Wrapper isMain backgroundColor={colors.appBgColor2} style={[{}]}>
             <StatusBars.Dark backgroundColor={colors.statusBarColor1} />
             <ScrollViews.KeyboardAvoiding>
                 <Wrapper>

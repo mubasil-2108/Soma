@@ -6,6 +6,7 @@ import { responsiveFontSize, responsiveHeight, routes, appSvgs, responsiveWidth,
 import { Button, Image, TouchableOpacity } from 'react-native';
 import { useHooks } from './hooks';
 import { Screen } from 'react-native-screens';
+import { Signin } from '../../../services/utilities/firebaseUtil/firebaseAuth';
 
 
 export default function Index(props) {
@@ -15,7 +16,7 @@ export default function Index(props) {
   const { toggleCheckbox, isChecked, email, setEmail, password, setPassword, togglePasswordVisibility, showPassword, modalVisibility, modalVisible } = useHooks()
   return (
     // <Text>{t('welcome')}</Text>
-    <Wrapper isMain background1 style={[{}]}>
+    <Wrapper isMain backgroundColor={colors.appBgColor2} style={[{}]}>
       <ScrollViews.KeyboardAvoiding>
         <StatusBars.Dark backgroundColor={colors.statusBarColor1} />
         <Wrapper>
@@ -106,7 +107,7 @@ export default function Index(props) {
           <Wrapper marginHorizontalSmall >
             <Buttons.Colored
               buttonColor={colors.buttonColor1}
-              onPress={() => { navigate(routes.app)}}
+              onPress={() => {Signin(email,password)}}
               buttonStyle={{
                 height: height(6), 
                 borderRadius: width(2),

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "827804609442",
+    "project_id": "soma-9f5bc",
+    "storage_bucket": "soma-9f5bc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827804609442:android:c852a29fa5b24ecd0fe0fb",
+        "android_client_info": {
+          "package_name": "com.soma"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjU0TKH3_KwTGRSgN6Yspn4bTqVsI9Grc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

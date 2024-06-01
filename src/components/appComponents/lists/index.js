@@ -5,11 +5,13 @@ import Text from '../../text';
 import Spacer from '../../spacer';
 import * as Images from '../../images';
 import * as Lines from '../../lines';
-import { appImages, appStyles, colors, getAppointmentStatusInfo, responsiveFontSize, responsiveHeight, responsiveWidth, routes, sizes } from '../../../services';
+import { appFonts, appImages, appStyles, colors, getAppointmentStatusInfo, responsiveFontSize, responsiveHeight, responsiveWidth, routes, sizes } from '../../../services';
 import { FlatList, Pressable } from 'react-native';
 import { Icon } from '@rneui/base';
 import * as Icons from '../../icons';
 import NotificationItem from '../notificationItems';
+import { CategoryItems } from '../category';
+import { ProductItems } from '../productItems';
 
 export const UsersListVerticalPrimary = ({ data, onPressItem, ...props }) => {
     return (
@@ -146,9 +148,9 @@ export const PostsListVerticalPrimary = ({ data, onPressItem, ...props }) => {
     )
 }
 
-export const NotificationsList = ({ handlePressItem, clickedItems,  data, onPressItem, ...props }) => {
-    
-    
+export const NotificationsList = ({ handlePressItem, clickedItems, data, onPressItem, ...props }) => {
+
+
     return (
         <FlatList
             data={data}
@@ -160,9 +162,9 @@ export const NotificationsList = ({ handlePressItem, clickedItems,  data, onPres
                 const { userName, userImage, timeStamp, notificationText } = item;
                 console.log(clickedItems);
                 return (
-                    <NotificationItem 
-                    onPress={() => handlePressItem(item, index)}
-                    clicked={clickedItems[item.id] || false}
+                    <NotificationItem
+                        onPress={() => handlePressItem(item, index)}
+                        clicked={clickedItems[item.id] || false}
                         isSelect={clickedItems[item.id]}
                         userName={userName}
                         timeStamp={timeStamp}
@@ -221,7 +223,6 @@ export const PostPrimary = ({ userImage, userName, timeStamp, title, description
     )
 }
 
-
 export const ChatMessagesListVertical = ({ data }) => {
     return (
         <>
@@ -278,5 +279,104 @@ export const ChatMessagesListVertical = ({ data }) => {
                 );
             })}
         </>
+    );
+};
+
+export const CategoryList = ({ handlePressItem, clickedItems, data, onPressItem, ...props }) => {
+
+
+    return (
+        <FlatList
+            data={data}
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            // ListFooterComponent={() => <Spacer height={sizes.marginVertical} />}
+            // ListHeaderComponent={() => <Spacer width={sizes.marginVertical} />}
+            // ItemSeparatorComponent={() => <Spacer width={sizes.marginVertical} />}
+            renderItem={({ item, index }) => {
+                const { userName, userImage, timeStamp, notificationText } = item;
+                // console.log(clickedItems);
+                return (
+                    <CategoryItems
+                        onPress={() => handlePressItem(item, index)}
+                        clicked={clickedItems[item.id] || false}
+                        isSelect={clickedItems[item.id]}
+                        userName={userName}
+                        {...item}
+                    />
+                );
+            }}
+            {...props}
+        />
+    );
+};
+
+// export const ProductList = ({ handlePressItem, clickedItems, data, onPressItem, ...props }) => {
+
+
+//     return (
+//         <Wrapper>
+//             <FlatList
+//                 data={data}
+//                 showsVerticalScrollIndicator={false}
+//                 horizontal
+//                 // ListFooterComponent={() => <Spacer height={sizes.marginVertical} />}
+//                 // ListHeaderComponent={() => <Spacer width={sizes.marginVertical} />}
+//                 // ItemSeparatorComponent={() => <Spacer width={sizes.marginVertical} />}
+//                 renderItem={({ item, index }) => {
+//                     const { id, subCategory } = item;
+//                     // const { userName, userImage, timeStamp, notificationText,product,subName } = item;
+//                     // console.log(data[0].subCategory[0].subName);
+//                     // console.log(clickedItems);
+//                     return (
+//                         <ProductItems
+//                             onPress={() => handlePressItem(item, index)}
+//                             clicked={clickedItems[item.id] || false}
+//                             isSelect={clickedItems[item.id]}
+//                             subCategories={subName}
+//                             productImage={product}
+//                             userName={userName}
+//                             timeStamp={timeStamp}
+//                             notificationText={notificationText}
+//                             {...item}
+//                         />
+//                     );
+//                 }}
+//                 {...props}
+//             />
+//         </Wrapper>
+//     );
+// };
+
+export const ProductList = ({ handlePressItem, clickedItems, data, ...props }) => {
+    return (
+        <Wrapper >
+            <FlatList
+                data={data}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({ item }) => {
+                    const { id, subCategory } = item;
+                    return (
+                        <Wrapper>
+                            {/* <Text>{id}</Text> Render User ID for testing */}
+                            {subCategory.map((subItem) => {
+                                const { subName, products } = subItem;
+                                return (
+                                    <ProductItems
+                                        key={id + '_' + subName}
+                                        handlePressItem={handlePressItem}
+                                        isSelect={clickedItems}
+                                        subCategory={subName}
+                                        products={products}
+                                    />
+                                );
+                            })}
+                        </Wrapper>
+                    );
+                }}
+                keyExtractor={(item) => item.id}
+                {...props}
+            />
+        </Wrapper>
     );
 };

@@ -110,7 +110,7 @@ export const Custom = ({ icon, size, animation, duration, color, onPress, contai
                 <Image
                     source={icon}
                     resizeMode="contain"
-                    style={{ height: size ? size : defaulSize, width: size ? size : defaulSize, tintColor: color }}
+                    style={{ height: size ? size : defaulSize, width: size ? size : defaulSize, tintColor: color, resizeMode: 'contain' }}
                 />
             </TouchableOpacity>
         </Wrapper>
