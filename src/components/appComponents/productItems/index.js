@@ -67,20 +67,21 @@ import { Icons, Images } from '../..';
 //     );
 // };
 
-export const ProductItems = ({ id, handlePressItem, isSelect, onPress, products, onHandlePress, subCategory, userImage, userName, productImage, timeStamp, notificationText }) => {
+export const ProductItems = ({ id, handlePressItem, isSelect, onPress, products, index,totalCategories, onHandlePress, subCategory, userImage, userName, productImage, timeStamp, notificationText }) => {
     return (
-        <Wrapper justifyContentCenter style={{marginBottom:responsiveHeight(2)}}>
+        <Wrapper justifyContentCenter style={{ marginBottom: index === totalCategories - 1 ? responsiveHeight(5) : responsiveHeight(2) }}>
             <Wrapper marginVerticalSmall>
                 <Text isMedium style={{ fontFamily: appFonts.appTextMedium }}>{subCategory}</Text>
             </Wrapper>
-            <Wrapper flexDirectionRow>
+            <Wrapper flexDirectionRow >
                 {products.map((product, index) => {
                     const { id, productName, productImage, productPrice, productCapacity, productTablets } = product;
                     return (
                         <React.Fragment key={id}>
                             <TouchableOpacity
                                 onPress={() => handlePressItem(product, index)}
-                                style={[styles.container, isSelect[id] ? styles.selected : styles.unSelected]}
+                                style={[styles.container, isSelect[id] ? styles.selected : styles.unSelected,
+                                ]}
                             >
                                 <Wrapper justifyContentCenter>
                                     <Images.MainLogo

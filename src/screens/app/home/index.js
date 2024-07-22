@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Image, TouchableOpacity, FlatList } from 'react-native';
-import { width, height } from 'react-native-dimension';
+import { width, height, totalSize } from 'react-native-dimension';
 import { Wrapper, Text, Icons, Headers, Modals, ScrollViews, StatusBars, CategoryList, TextInputs, ProductList } from '../../../components';
 import { useHooks } from './hooks'
 import { appImages, colors, routes, sizes, fontSizes, appFonts, appIcons, responsiveWidth, responsiveHeight } from '../../../services';
@@ -22,14 +22,14 @@ export default function Home(props) {
   } = useHooks()
   return (
     <>
-      <Wrapper flex={0.94}  backgroundColor={colors.appBgColor1}>
+      <Wrapper flex={0.94}  backgroundColor={colors.appBgColor2}>
         {/* <ScrollViews.KeyboardAvoiding> */}
           <StatusBars.Light backgroundColor={colors.appBgColor1} />
           <Wrapper
             backgroundColor={colors.appBgColor1}
             style={{
               // height: responsiveHeight(35),
-              borderBottomLeftRadius: responsiveWidth(8)
+              borderBottomLeftRadius: totalSize(3)
             }}>
             <Wrapper flexDirectionRow
               justifyContentSpaceBetween
@@ -79,10 +79,10 @@ export default function Home(props) {
           <Wrapper flex={1} backgroundColor={colors.appBgColor1}>
             <Wrapper
               backgroundColor={colors.appBgColor2}
-              style={{ borderTopRightRadius: responsiveWidth(8) }} >
+              style={{ borderTopRightRadius: totalSize(4) }} >
               <Wrapper
-                marginVerticalBase
-                style={{ paddingLeft: responsiveWidth(7) }}>
+                
+                style={{ paddingLeft: responsiveWidth(7), marginTop:responsiveHeight(4) }}>
                 {/* <FlatList
                   data={dummyProductData}
                   renderItem={({ item }) => ( */}

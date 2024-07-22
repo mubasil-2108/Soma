@@ -79,6 +79,13 @@ export function useHooks() {
                             productPrice: 19.99,
                             productCapacity: 'N/A',
                             productTablets: 'N/A'
+                        },
+                        {
+                            productName: 'Microscope',
+                            productImage: appImages.product2,
+                            productPrice: 19.99,
+                            productCapacity: 'N/A',
+                            productTablets: 'N/A'
                         }
                     ]
                 }
@@ -101,7 +108,39 @@ export function useHooks() {
                     ]
                 }
             ]
-        }
+        },
+        {
+            id: '3',
+            userName: 'cardiologie',
+            subCategory: [
+                {
+                    subName: 'Rythmologie',
+                    products: [
+                        {
+                            productName: 'Bandage',
+                            productImage: appImages.product1,
+                            productPrice: 9.99,
+                            productCapacity: '75ml',
+                            productTablets: '100 tablets'
+                        },
+                        {
+                            productName: 'Stethoscope',
+                            productImage: appImages.product2,
+                            productPrice: 19.99,
+                            productCapacity: 'N/A',
+                            productTablets: 'N/A'
+                        },
+                        {
+                            productName: 'Microscope',
+                            productImage: appImages.product2,
+                            productPrice: 19.99,
+                            productCapacity: 'N/A',
+                            productTablets: 'N/A'
+                        }
+                    ]
+                }
+            ]
+        },
     ];
     
     const dummyData = [

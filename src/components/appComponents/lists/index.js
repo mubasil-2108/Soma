@@ -353,24 +353,33 @@ export const ProductList = ({ handlePressItem, clickedItems, data, ...props }) =
         <Wrapper >
             <FlatList
                 data={data}
-                showsHorizontalScrollIndicator={false}
-                renderItem={({ item }) => {
+                showsVerticalScrollIndicator={false}
+                renderItem={({ item,index }) => {
                     const { id, subCategory } = item;
                     return (
                         <Wrapper>
-                            {/* <Text>{id}</Text> Render User ID for testing */}
-                            {subCategory.map((subItem) => {
-                                const { subName, products } = subItem;
-                                return (
-                                    <ProductItems
-                                        key={id + '_' + subName}
-                                        handlePressItem={handlePressItem}
-                                        isSelect={clickedItems}
-                                        subCategory={subName}
-                                        products={products}
-                                    />
-                                );
-                            })}
+                            <FlatList
+                                data={subCategory}
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                                keyExtractor={(subItem) => id + '_' + subItem.subName}
+                                renderItem={({ item: subItem }) => {
+                                    const { subName, products } = subItem;
+                                    return (
+                                        <ProductItems
+                                            key={id + '_' + subName}
+                                            handlePressItem={handlePressItem}
+                                            isSelect={clickedItems}
+                                            subCategory={subName}
+                                            products={products}
+                                            index={index}
+                                            totalCategories={data.length}
+                                        />
+                                    )
+                                }}
+                            // {/* <Text>{id}</Text> Render User ID for testing */}
+
+                            />
                         </Wrapper>
                     );
                 }}
