@@ -5,7 +5,7 @@ import { goBack } from '../../navigation/rootNavigation'
 import * as Icons from '../icons';
 import Wrapper from '../wrapper';
 import Text from '../text';
-import { height, totalSize , width} from 'react-native-dimension'
+import { height, totalSize, width } from 'react-native-dimension'
 import { Pressable } from 'react-native';
 import Spacer from '../spacer';
 import * as StatusBars from '../statusBars';
@@ -38,7 +38,7 @@ export const Primary = ({
     onBackPress, search, title, right, searchPress,
     left, titleContainerStyle, centerTitle, tintColor,
     containerStyle, headerTitle, alignTitleLeft, showBackArrow,
-    invertColors, titleStyle, leftContainerStyle,iconContainer, rightContainerStyle, shadow, auth }) => {
+    invertColors, titleStyle, leftContainerStyle, iconContainer, iconColor, textColor,allowText, rightContainerStyle,textStyle, shadow, auth }) => {
 
     const { statusBarHeight, headerHeight, } = useSizes()
     const defaultTintColor = !invertColors ? colors.appTextColor6 : colors.appColor1
@@ -46,8 +46,10 @@ export const Primary = ({
     return (
         <Wrapper style={[
             appStyles.headerStyle,
-            { height: headerHeight,
-             backgroundColor: defaultBackgroundColor, borderBottomWidth: 0, }, shadow && appStyles.shadowLight, containerStyle]}>
+            {
+                height: headerHeight,
+                backgroundColor: defaultBackgroundColor, borderBottomWidth: 0,
+            }, shadow && appStyles.shadowLight, containerStyle]}>
             {/* <StatusBars.Light /> */}
             <Wrapper flex={1} style={iconContainer} >
                 {/* <Wrapper isAbsolute
@@ -68,6 +70,7 @@ export const Primary = ({
                 </Wrapper> */}
                 <Wrapper flex={1.5} style={[
                     // { backgroundColor: 'red' },
+                    
                     leftContainerStyle]}>
                     {
                         left ? left :
@@ -76,14 +79,20 @@ export const Primary = ({
                                     style={[{ flex: 1 }, appStyles.center]}
                                     onPress={onBackPress ? onBackPress : goBack}
                                 >
-                                    <Icons.Button
-                                        iconName={'chevron-left'}
-                                        buttonStyle={{backgroundColor:colors.buttonColor3, borderRadius:width(4), borderColor:colors.buttonBorder1, borderWidth: width(0.4)}}
-                                        //onPress={onBackPress}
-                                        //onPress={onBackPress ? onBackPress : goBack}
-                                        // style={{ marginLeft: sizes.marginHorizontal }}
-                                        color={tintColor ? tintColor : defaultTintColor}
-                                    />
+                                    {/* <Wrapper > */}
+                                        <Icons.Button
+                                            iconName={'chevron-left'}
+                                            iconColor={iconColor}
+                                            buttonStyle={{ backgroundColor: colors.buttonColor3, borderRadius: width(4), borderColor: colors.buttonBorder1, borderWidth: width(0.4) }}
+                                            //onPress={onBackPress}
+                                            //onPress={onBackPress ? onBackPress : goBack}
+                                            // style={{ marginLeft: sizes.marginHorizontal }}
+                                            color={tintColor ? tintColor : defaultTintColor}
+                                        />
+                                        
+                                    {/* </Wrapper> */}
+
+
                                 </Pressable>
                                 :
                                 null

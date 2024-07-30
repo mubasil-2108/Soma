@@ -102,7 +102,7 @@ export const Button = ({
         </TouchableOpacity>
     );
 }
-export const Custom = ({ icon, size, animation, duration, color, onPress, containerStyle }) => {
+export const Custom = ({ icon, size, animation, duration, color, onPress,imageBGColor, containerStyle }) => {
     const defaulSize = totalSize(5)
     return (
         <Wrapper animation={animation} duration={duration} style={containerStyle}>
@@ -110,7 +110,7 @@ export const Custom = ({ icon, size, animation, duration, color, onPress, contai
                 <Image
                     source={icon}
                     resizeMode="contain"
-                    style={{ height: size ? size : defaulSize, width: size ? size : defaulSize, tintColor: color, resizeMode: 'contain' }}
+                    style={{ height: size ? size : defaulSize, width: size ? size : defaulSize, tintColor: color, resizeMode: 'contain', backgroundColor: imageBGColor }}
                 />
             </TouchableOpacity>
         </Wrapper>

@@ -64,9 +64,11 @@ export const colors = {
   appTextColor6: '#FFFFFF',
   appTextColor7: '#000000',
   appTextColor8: '#ADADAD',
+  appTextColor9: '#101623',
 
   appBgColor1: '#234CB0',
   appBgColor2: '#FFFFFF',
+  
 
   appBgColor3: '#E9E9E9',
   appBgColor4: '#AAAAAA',
@@ -75,6 +77,8 @@ export const colors = {
 
   //inputText Border
   inputTextBorder: 'rgba(232, 236, 244, 1)',
+  inputTextBorder2: 'rgba(35, 76, 176, 1)',
+  inputTextBorder3: 'rgba(0, 0, 0, 0.07)',
 
   // icon Color
   iconColor1: '#1E232C',
@@ -83,17 +87,25 @@ export const colors = {
   iconColor4: '#ADADAD',
   iconColor5: '#A81C3A',
   iconColor6: '#01CDFF',
+  iconColor7: '#234CB0',
 
   //BorderColor
   borderColor1:'#ADADAD',
   borderColor2:'#234CB029',
+  borderColor3:'rgba(35, 76, 176, 0.3)',
+
+  // Shadow Color
+  shadowColor1: '#000000',
+  shadowColor2: 'rgba(0, 0, 0, 0.05)',
 
   // InputField Color
   inputfieldColor1: '#E8ECF4',
   inputfieldColor2: '#F9FAFA',
+  inputfieldColor3: 'rgba(249, 250, 250, 1)',
 
   // PlaceHolder Color
   placeHolderColor: '#8391A1',
+  placeHolderColor2: 'rgba(55, 71, 79, 0.72)',
 
   //StatusBar Color
   statusBarColor1: '#FFFFFF',

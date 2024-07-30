@@ -27,7 +27,7 @@ import { Icons, Images } from '../..';
 //                                         justifyContentCenter
 //                                     >
 //                                         <Images.MainLogo
-//                                             source={productImage}
+//                                             source={{uri: productImage}}
 //                                             style={{
 //                                                 // borderRadius: sizes.cardRadius,
 //                                                 borderRadius: responsiveWidth(3),
@@ -67,13 +67,69 @@ import { Icons, Images } from '../..';
 //     );
 // };
 
-export const ProductItems = ({ id, handlePressItem, isSelect, onPress, products, index,totalCategories, onHandlePress, subCategory, userImage, userName, productImage, timeStamp, notificationText }) => {
+export const ProductItems = ({ id, handlePressItem, isSelect, onPress, products, index, totalCategories, onHandlePress, subCategory, userImage, userName, productImage, timeStamp, notificationText }) => {
+    const truncateText = (text, maxLength) => {
+        return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+    };
+    return (
+        <Wrapper justifyContentCenter style={{ marginBottom: index === totalCategories + 8 ? responsiveHeight(5) : responsiveHeight(2) }}>
+            
+            <Wrapper flexDirectionRow >
+                {products.map((product, index) => {
+                    const { id, productName, productImage, productPrice, productCapacity, productTablets } = product;
+                    return (
+                        <React.Fragment key={id}>
+                            <TouchableOpacity
+                                key={product.id}
+                                onPress={() => handlePressItem(product)}
+                                style={[styles.container, isSelect[id] ? styles.selected : styles.unSelected,
+                                ]}
+                            >
+                                <Wrapper justifyContentCenter>
+                                    <Images.MainLogo
+                                        source={{ uri: productImage }}
+                                        style={{
+                                            borderRadius: responsiveWidth(3),
+                                            height: sizes.images.productHeight,
+                                            width: sizes.images.productWidth
+                                        }} />
+                                    <Wrapper marginHorizontalSmall justifyContentCenter paddingVerticalTiny>
+                                        <Text isRegular style={{ color: colors.appTextColor7, fontFamily: appFonts.poppinsRegular }} >{truncateText(productName, 9)}</Text>
+                                    </Wrapper>
+                                    <Wrapper marginHorizontalSmall >
+                                        <Text style={{ marginTop: responsiveHeight(-1), fontSize: fontSizes.xTiny, color: colors.appTextColor8, fontFamily: appFonts.poppinsRegular }} >{productCapacity} {' '}
+                                            <Text>
+                                                ({productTablets})
+                                            </Text>
+                                        </Text>
+                                    </Wrapper>
+                                    <Wrapper
+                                        marginHorizontalSmall
+                                        flexDirectionRow
+                                        alignItemsCenter
+                                        justifyContentSpaceBetween
+                                        style={{ marginBottom: responsiveHeight(1) }}>
+                                        <Text isTinyTitle style={{ color: colors.appTextColor7, fontFamily: appFonts.interRegular }}>${productPrice}</Text>
+                                        <Icons.Custom icon={appIcons.add} size={sizes.icons.mediumLarge} />
+                                    </Wrapper>
+                                </Wrapper>
+                            </TouchableOpacity>
+                            <Spacer width={responsiveWidth(2)} />
+                        </React.Fragment>
+                    );
+                })}
+            </Wrapper>
+        </Wrapper>
+    );
+};
+
+export const SubCategory = ({ id, handlePressItem, isSelect, onPress, products, index, totalCategories, onHandlePress, subCategory, userImage, userName, productImage, timeStamp, notificationText }) => {
     return (
         <Wrapper justifyContentCenter style={{ marginBottom: index === totalCategories - 1 ? responsiveHeight(5) : responsiveHeight(2) }}>
-            <Wrapper marginVerticalSmall>
+            {/* <Wrapper marginVerticalSmall>
                 <Text isMedium style={{ fontFamily: appFonts.appTextMedium }}>{subCategory}</Text>
-            </Wrapper>
-            <Wrapper flexDirectionRow >
+            </Wrapper> */}
+            <Wrapper  >
                 {products.map((product, index) => {
                     const { id, productName, productImage, productPrice, productCapacity, productTablets } = product;
                     return (
@@ -95,7 +151,7 @@ export const ProductItems = ({ id, handlePressItem, isSelect, onPress, products,
                                         <Text isRegular style={{ color: colors.appTextColor7, fontFamily: appFonts.poppinsRegular }} >{productName}</Text>
                                     </Wrapper>
                                     <Wrapper marginHorizontalSmall >
-                                        <Text style={{ marginTop:responsiveHeight(-1), fontSize: fontSizes.xTiny, color: colors.appTextColor8, fontFamily: appFonts.poppinsRegular }} >{productCapacity} {' '}
+                                        <Text style={{ marginTop: responsiveHeight(-1), fontSize: fontSizes.xTiny, color: colors.appTextColor8, fontFamily: appFonts.poppinsRegular }} >{productCapacity} {' '}
                                             <Text>
                                                 ({productTablets})
                                             </Text>

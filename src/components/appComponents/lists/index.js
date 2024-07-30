@@ -1,17 +1,17 @@
 import React, { Component, useState } from 'react';
 import Wrapper from '../../wrapper';
-
+import { width, height, totalSize } from 'react-native-dimension';
 import Text from '../../text';
 import Spacer from '../../spacer';
 import * as Images from '../../images';
 import * as Lines from '../../lines';
 import { appFonts, appImages, appStyles, colors, getAppointmentStatusInfo, responsiveFontSize, responsiveHeight, responsiveWidth, routes, sizes } from '../../../services';
-import { FlatList, Pressable } from 'react-native';
+import { FlatList, Pressable, StyleSheet } from 'react-native';
 import { Icon } from '@rneui/base';
 import * as Icons from '../../icons';
 import NotificationItem from '../notificationItems';
 import { CategoryItems } from '../category';
-import { ProductItems } from '../productItems';
+import { ProductItems, SubCategory } from '../productItems';
 
 export const UsersListVerticalPrimary = ({ data, onPressItem, ...props }) => {
     return (
@@ -282,7 +282,7 @@ export const ChatMessagesListVertical = ({ data }) => {
     );
 };
 
-export const CategoryList = ({ handlePressItem, clickedItems, data, onPressItem, ...props }) => {
+export const CategoryList = ({ handlePressItem, selectedStyle, selectedText, unSelectedText, unSelectedStyle, textStyle, clickedItems, data, onPressItem, ...props }) => {
 
 
     return (
@@ -294,18 +294,25 @@ export const CategoryList = ({ handlePressItem, clickedItems, data, onPressItem,
             // ListHeaderComponent={() => <Spacer width={sizes.marginVertical} />}
             // ItemSeparatorComponent={() => <Spacer width={sizes.marginVertical} />}
             renderItem={({ item, index }) => {
-                const { userName, userImage, timeStamp, notificationText } = item;
+                const { name, userImage, timeStamp, notificationText } = item;
+                const isSelect = !!clickedItems[name];
                 // console.log(clickedItems);
                 return (
                     <CategoryItems
-                        onPress={() => handlePressItem(item, index)}
-                        clicked={clickedItems[item.id] || false}
-                        isSelect={clickedItems[item.id]}
-                        userName={userName}
+                        onPress={() => handlePressItem(item)}
+                        clicked={isSelect}
+                        isSelect={isSelect}
+                        userName={name}
+                        textStyle={textStyle}
+                        selectedStyle={selectedStyle}
+                        unSelectedStyle={unSelectedStyle}
+                        unSelectedText={unSelectedText}
+                        selectedText={selectedText}
                         {...item}
                     />
                 );
             }}
+            keyExtractor={(item) => item.name}
             {...props}
         />
     );
@@ -348,43 +355,183 @@ export const CategoryList = ({ handlePressItem, clickedItems, data, onPressItem,
 //     );
 // };
 
+// export const ProductList = ({ handlePressItem, clickedItems, data, ...props }) => {
+//     return (
+//         <Wrapper >
+//             <FlatList
+//                 data={Object.values(data)}
+//                 showsVerticalScrollIndicator={false}
+//                 renderItem={({ item,index }) => {
+//                     const { id, subCategories } = item;
+//                     return (
+//                         <Wrapper key={id}>
+//                             <FlatList
+//                                 data={Object.values(subCategories)}
+//                                 horizontal
+//                                 showsHorizontalScrollIndicator={false}
+//                                 keyExtractor={(subItem) => subItem.name + '_' + id}
+//                                 renderItem={({ item: subItem }) => {
+//                                     const { name, products } = subItem;
+//                                     return (
+//                                         <ProductItems
+//                                         key={name + '_' + id} 
+//                                             handlePressItem={handlePressItem}
+//                                             isSelect={clickedItems}
+//                                             subCategory={name}
+//                                             products={products}
+//                                             index={index}
+//                                             totalCategories={Object.keys(data).length}
+//                                         />
+//                                     )
+//                                 }}
+//                             // {/* <Text>{id}</Text> Render User ID for testing */}
+
+//                             />
+//                         </Wrapper>
+//                     );
+//                 }}
+//                 keyExtractor={item => (item.id ? item.id.toString() : `key_${Math.random()}`)}
+//                 {...props}
+//             />
+//         </Wrapper>
+//     );
+// };
+
 export const ProductList = ({ handlePressItem, clickedItems, data, ...props }) => {
     return (
-        <Wrapper >
+        <Wrapper>
             <FlatList
-                data={data}
+                data={Object.values(data)}
                 showsVerticalScrollIndicator={false}
-                renderItem={({ item,index }) => {
-                    const { id, subCategory } = item;
+                renderItem={({ item, index }) => {
+                    const { id, subCategories } = item;
                     return (
-                        <Wrapper>
+                        <Wrapper key={id}>
                             <FlatList
-                                data={subCategory}
-                                horizontal
+                                data={Object.values(subCategories)}
                                 showsHorizontalScrollIndicator={false}
-                                keyExtractor={(subItem) => id + '_' + subItem.subName}
+                                keyExtractor={(subItem) => subItem.name + '_' + id}
                                 renderItem={({ item: subItem }) => {
-                                    const { subName, products } = subItem;
+                                    const { name, products } = subItem;
                                     return (
-                                        <ProductItems
-                                            key={id + '_' + subName}
-                                            handlePressItem={handlePressItem}
-                                            isSelect={clickedItems}
-                                            subCategory={subName}
-                                            products={products}
-                                            index={index}
-                                            totalCategories={data.length}
-                                        />
-                                    )
+                                        <Wrapper key={name + '_' + id}>
+                                            <Wrapper marginVerticalSmall>
+                                                <Text isMedium style={{ fontFamily: appFonts.appTextMedium }}>{name}</Text>
+                                            </Wrapper>
+                                            <FlatList
+                                                data={products}
+                                                horizontal
+                                                showsHorizontalScrollIndicator={false}
+                                                keyExtractor={(product) => product.id.toString()}
+                                                renderItem={({ item: product }) => (
+                                                    <ProductItems
+                                                        key={product.id}
+                                                        handlePressItem={handlePressItem}
+                                                        isSelect={clickedItems}
+                                                        subCategory={name}
+                                                        products={[product]}
+                                                        index={index}
+                                                        totalCategories={Object.keys(data).length}
+                                                    // Other props if needed
+                                                    />
+                                                )}
+                                            />
+                                        </Wrapper>
+                                    );
                                 }}
-                            // {/* <Text>{id}</Text> Render User ID for testing */}
-
+                                {...props}
                             />
                         </Wrapper>
                     );
                 }}
-                keyExtractor={(item) => item.id}
+                keyExtractor={item => item.id ? item.id.toString() : `key_${Math.random()}`}
                 {...props}
+            />
+        </Wrapper>
+    );
+};
+
+const styles = StyleSheet.create({
+    subCategoryTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: 'black',
+        marginVertical: responsiveHeight(2),
+    },
+})
+
+// export const SubCategoryList = ({ handlePressItem, clickedItems, data, ...props }) => {
+//     return (
+//         <Wrapper >
+//             <FlatList
+//                 data={data}
+
+//                 showsVerticalScrollIndicator={false}
+//                 renderItem={({ item,index }) => {
+//                     const { id, subCategory } = item;
+//                     return (
+//                         <Wrapper>
+//                             <FlatList
+//                                 data={subCategory}
+//                                 horizontal
+//                                 showsHorizontalScrollIndicator={false}
+//                                 keyExtractor={(subItem) => id + '_' + subItem.subName}
+//                                 renderItem={({ item: subItem }) => {
+//                                     const { subName, products } = subItem;
+//                                     return (
+//                                         <SubCategory
+//                                             key={id + '_' + subName}
+//                                             handlePressItem={handlePressItem}
+//                                             isSelect={clickedItems}
+//                                             subCategory={subName}
+//                                             products={products}
+//                                             index={index}
+//                                             totalCategories={data.length}
+//                                         />
+//                                     )
+//                                 }}
+//                             // {/* <Text>{id}</Text> Render User ID for testing */}
+
+//                             />
+//                         </Wrapper>
+//                     );
+//                 }}
+//                 keyExtractor={(item) => item.id}
+//                 {...props}
+//             />
+//         </Wrapper>
+//     );
+// };
+export const SubCategoryList = ({ handlePressItem, clickedItems, data }) => {
+    // Flatten all products into one array
+    const allProducts = data.flatMap(category =>
+        category.subCategory.flatMap(subCat =>
+            subCat.products.map(product => ({
+                ...product,
+                subCategory: subCat.subName,
+                categoryName: category.userName,
+            }))
+        )
+    );
+
+    // Make sure to provide a unique key for each item
+    const keyExtractor = (item) => item.id ? item.id.toString() : `${item.productName}-${Math.random()}`;
+
+    return (
+        <Wrapper>
+            <FlatList
+                data={allProducts}
+                renderItem={({ item, index }) => (
+                    <SubCategory
+                        key={item.id}
+                        handlePressItem={handlePressItem}
+                        isSelect={clickedItems.includes(item.id)}
+                        {...item}
+                        index={index}
+                        totalCategories={allProducts.length}
+                    />
+                )}
+                keyExtractor={keyExtractor}
             />
         </Wrapper>
     );

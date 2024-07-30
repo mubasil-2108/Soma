@@ -7,6 +7,13 @@ const appImages = {
     product1:require('../../../assets/images/product1.png'),
     product2:require('../../../assets/images/product2.png'),
 
+    heart: require('../../../assets/images/heart.png'),
+    radiation: require('../../../assets/images/radiation.png'),
+    sphygmomanometer: require('../../../assets/images/sphygmomanometer.png'),
+    pelvis: require('../../../assets/images/pelvis.png'),
+    defibrillator: require('../../../assets/images/defibrillator.png'),
+    pharynx: require('../../../assets/images/pharynx.png'),
+
     // book: require('../../../assets/images/menu_book.png'),
     backgroundImage: require('../../../assets/images/backgroundImage.png'),
     profile: require('../../../assets/images/PFP.png'),

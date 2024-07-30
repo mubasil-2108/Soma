@@ -26,6 +26,11 @@ export const routes = {
     //app
     bottomTab: 'bottomTab',
     home: 'home',
+    dummyScreen:'DummyScreen',
+    homeStackScreen: 'HomeStackScreen',
+    allCategory: 'allCategory',
+    subCategories: 'subCategories',
+
     editProfile: 'editProfile',
     notifications: 'notifications',
     account: 'account',

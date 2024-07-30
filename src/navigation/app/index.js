@@ -12,6 +12,7 @@ const AppNavigation = () => {
             initialRouteName={routes.bottomTab}
         >
              <AppStack.Screen name={routes.bottomTab} component={BottomTab} />
+
              {/* <AppStack.Screen name={routes.home} component={App.Home} /> 
              <AppStack.Screen name={routes.editProfile} component={App.EditProfile} />
             <AppStack.Screen name={routes.notifications} component={App.Notificatons} /> */}

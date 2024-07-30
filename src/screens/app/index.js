@@ -4,7 +4,9 @@ import EditProfile from './editProfile'
 import Account from './account'
 import Cart from './cart'
 import Product from './products'
-
+import AllCategory from './allCategory'
+import SubCategories from './subCategories'
+import DummyScreen from './dummyScreen'
 
 export {
     Home,
@@ -12,5 +14,8 @@ export {
     EditProfile,
     Account,
     Cart,
-    Product
+    Product,
+    AllCategory,
+    SubCategories,
+    DummyScreen
 }

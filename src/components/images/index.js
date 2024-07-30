@@ -25,6 +25,16 @@ export const SqareRound = ({ style, size, source }) => {
     );
 }
 
+export const Simple = ({ style, size, source }) => {
+    const defaultSize = totalSize(5)
+    return (
+        <Image
+            source={source}
+            style={[{ height: size ? size : defaultSize, width: size ? size : defaultSize }, style]}
+        />
+    );
+}
+
 export const MainLogo = ({ style, size, source }) => {
     const defaultSize = totalSize(5)
     return (

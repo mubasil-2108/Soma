@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { height, width } from 'react-native-dimension'
 import { TouchableOpacity, View, Image, StyleSheet } from 'react-native';
 import Wrapper from '../../wrapper';
@@ -6,19 +6,20 @@ import Text from '../../text';
 import { appFonts, colors, fontSizes, responsiveHeight, responsiveWidth } from '../../../services';
 import Spacer from '../../spacer';
 
-export const CategoryItems = ({ id, isSelect, onPress, onHandlePress, userImage, userName, timeStamp, notificationText }) => {
+export const CategoryItems = ({ id, isSelect, onPress, selectedText, unSelectedText, onHandlePress, userImage,textStyle, selectedStyle,unSelectedStyle, userName, timeStamp, notificationText }) => {
+   const [isShowAll, setShowAll] = useState();
     const truncatedUserName = userName.length > 50 ? `${userName.substring(0, 50)}...` : userName;
     console.log(isSelect);
     return (
         <>
             <Wrapper justifyContentCenter >
-                <TouchableOpacity onPress={() => onPress(id)} style={[isSelect ? styles.selected : styles.unSelected]}>
+                <TouchableOpacity onPress={() => onPress(id)} style={[isSelect ? selectedStyle : unSelectedStyle]}>
                     <Wrapper
                         justifyContentCenter
                         alignItemsCenter
                         paddingHorizontalBase
                         paddingVerticalSmall>
-                        <Text style={[isSelect ? styles.userName : styles.unSelectedText]}>{truncatedUserName}</Text>
+                        <Text style={[isSelect ? selectedText : unSelectedText, textStyle]}>{truncatedUserName}</Text>
                     </Wrapper>
                 </TouchableOpacity>
             </Wrapper>
@@ -28,24 +29,6 @@ export const CategoryItems = ({ id, isSelect, onPress, onHandlePress, userImage,
 };
 
 const styles = StyleSheet.create({
-    selected: {
-        borderRadius: 50,
-        backgroundColor: colors.appBgColor2,
-    },
-    unSelected: {
-        borderRadius: 50,
-        backgroundColor: colors.transparent,
-        borderWidth:responsiveWidth(0.1),
-        borderColor: colors.borderColor1
-    },
-    userName: {
-        color: colors.appTextColor3,
-        fontFamily: appFonts.appTextMedium,
-        fontSize: fontSizes.regular
-    },
-    unSelectedText:{
-        color: colors.appTextColor6,
-        fontFamily: appFonts.appTextRegular,
-        fontSize: fontSizes.regular
-    }
+   
+   
 });

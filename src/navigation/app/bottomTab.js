@@ -1,5 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet } from 'react-native';
 import { width, height } from 'react-native-dimension';
 import { appFonts, appIcons, colors, fontSizes, responsiveFontSize, responsiveHeight, responsiveWidth, routes, tabs } from "../../services";
@@ -9,9 +10,25 @@ import * as App from '../../screens/app';
 import Text from "../../components/text";
 
 const BottomTabStack = createBottomTabNavigator();
+const HomeStack = createStackNavigator();
 const tabIconSize = responsiveFontSize(22);
 
-const TabIcon = ({ color, iconName, iconType, focused, image, tabBarLabel,customStyle }) => {
+const HomeStackScreen = () => (
+    <HomeStack.Navigator
+        screenOptions={{
+            headerShown: false,
+        }}
+        initialRouteName={routes.home}
+    >
+        <HomeStack.Screen name={routes.home} component={App.Home} />
+        <HomeStack.Screen name={routes.dummyScreen} component={App.DummyScreen}/>
+        {/* <HomeStack.Screen name={routes.allCategory} component={App.AllCategory} /> */}
+        {/* <HomeStack.Screen name={routes.subCategories} component={App.SubCategories} /> */}
+        
+    </HomeStack.Navigator>
+);
+
+const TabIcon = ({ color, iconName, iconType, focused, image, tabBarLabel, customStyle }) => {
     const activeColor = colors.iconColor3;  // define active color
     const inactiveColor = colors.iconColor4;  // define inactive color
 
@@ -19,21 +36,21 @@ const TabIcon = ({ color, iconName, iconType, focused, image, tabBarLabel,custom
         <Wrapper justifyContentCenter alignItemsCenter style={styles.iconWrapper(focused)}>
             {
                 !image ?
-                    <Icon 
-                        name={iconName} 
-                        type={iconType} 
-                        size={tabIconSize} 
-                        color={focused ? activeColor : inactiveColor} 
+                    <Icon
+                        name={iconName}
+                        type={iconType}
+                        size={tabIconSize}
+                        color={focused ? activeColor : inactiveColor}
                     />
                     :
-                    <Images.Round 
-                    // { uri: image }
-                        source={image} 
-                        size={tabIconSize} 
-                        style={{tintColor: focused ? activeColor : inactiveColor, resizeMode:'contain' ,  opacity: focused ? 1 : 0.5, ...customStyle }} 
+                    <Images.Round
+                        // { uri: image }
+                        source={image}
+                        size={tabIconSize}
+                        style={{ tintColor: focused ? activeColor : inactiveColor, resizeMode: 'contain', opacity: focused ? 1 : 0.5, ...customStyle }}
                     />
             }
-            <Text isTiny style={{textAlign:'center', backgroundColor:colors.transparent, color: focused ? activeColor : inactiveColor, fontFamily:appFonts.interRegular }}>{tabBarLabel}</Text>
+            <Text isTiny style={{ textAlign: 'center', backgroundColor: colors.transparent, color: focused ? activeColor : inactiveColor, fontFamily: appFonts.interRegular }}>{tabBarLabel}</Text>
         </Wrapper>
     );
 }
@@ -45,22 +62,23 @@ export default function BottomTabNavigation() {
                 headerShown: false,
                 ...tabs.tabBarOptions,
                 tabBarShowLabel: false,
-                
+
             }}
+            initialRouteName={routes.homeStackScreen}
         >
             <BottomTabStack.Screen
-                name={routes.home}
-                component={App.Home}
+                name={routes.homeStackScreen}
+                component={HomeStackScreen}
                 options={{
                     tabBarIcon: ({ color, size, focused }) => (
-                        <TabIcon 
+                        <TabIcon
                             // iconName='home' 
                             // iconType='feather'
-                            image={appIcons.home} 
-                            customStyle={{borderRadius:0}}
-                            color={color} 
-                            focused={focused} 
-                            tabBarLabel='Home' 
+                            image={appIcons.home}
+                            customStyle={{ borderRadius: 0 }}
+                            color={color}
+                            focused={focused}
+                            tabBarLabel='Home'
                         />
                     ),
                 }}
@@ -70,14 +88,14 @@ export default function BottomTabNavigation() {
                 component={App.Product}
                 options={{
                     tabBarIcon: ({ color, size, focused }) => (
-                        <TabIcon 
+                        <TabIcon
                             // iconName='globe' 
                             // iconType='feather' 
                             image={appIcons.products}
-                            customStyle={{borderRadius:0}}
-                            color={color} 
-                            focused={focused} 
-                            tabBarLabel='Product' 
+                            customStyle={{ borderRadius: 0 }}
+                            color={color}
+                            focused={focused}
+                            tabBarLabel='Product'
                         />
                     ),
                 }}
@@ -87,12 +105,12 @@ export default function BottomTabNavigation() {
                 component={App.Cart}
                 options={{
                     tabBarIcon: ({ color, size, focused }) => (
-                        <TabIcon 
+                        <TabIcon
                             image={appIcons.cart}
-                            customStyle={{borderRadius:0}}
-                            color={color} 
-                            focused={focused} 
-                            tabBarLabel='Cart' 
+                            customStyle={{ borderRadius: 0 }}
+                            color={color}
+                            focused={focused}
+                            tabBarLabel='Cart'
                         />
                     ),
                 }}
@@ -102,12 +120,12 @@ export default function BottomTabNavigation() {
                 component={App.Account}
                 options={{
                     tabBarIcon: ({ color, size, focused }) => (
-                        <TabIcon 
-                            iconName='user' 
-                            iconType='feather' 
-                            color={color} 
-                            focused={focused} 
-                            tabBarLabel='Account' 
+                        <TabIcon
+                            iconName='user'
+                            iconType='feather'
+                            color={color}
+                            focused={focused}
+                            tabBarLabel='Account'
                         />
                     ),
                 }}
@@ -129,6 +147,6 @@ const styles = StyleSheet.create({
     }),
     iconImage: {
         opacity: 0.5,
-        resizeMode:'contain'
+        resizeMode: 'contain'
     }
 });

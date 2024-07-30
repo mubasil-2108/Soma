@@ -3,6 +3,7 @@ import { BackHandler } from 'react-native'
 import { GiftedChat } from 'react-native-gifted-chat';
 import { navigate, goBack } from '../../../../navigation/rootNavigation';
 import { appImages, routes } from '../../../../services';
+import firestore from '@react-native-firebase/firestore';
 
 export function useHooks() {
 
@@ -11,6 +12,12 @@ export function useHooks() {
     const [modalHomeVisible, setModalHomeVisible] = useState(false);
     const [clickedItems, setClickedItems] = useState({});
     const [clickedProductItems, setClickedProductsItems] = useState({});
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const predefinedOrder = ['Cardiologie', 'Oncologie', 'Vasculaire', 'Hernie', 'Reanimation', 'Orl'];
+    const [data, setData] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
@@ -18,10 +25,93 @@ export function useHooks() {
             backHandler.remove();
         };
     }, []);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const snapshot = await firestore().collection('Categories').get();
+                let categoriesList = snapshot.docs.map(doc => doc.data().name);
+
+                // Add "ALL" to categories list
+                categoriesList = ['ALL', ...categoriesList];
+
+                // Sort categories according to predefined order
+                categoriesList.sort((a, b) => predefinedOrder.indexOf(a) - predefinedOrder.indexOf(b));
+
+                setCategories(categoriesList);
+            } catch (error) {
+                console.error('Error fetching categories: ', error);
+            }
+        };
+    
+        fetchCategories();
+      }, []);
     const handleBackPress = () => {
         navigate(routes.auth);
         return true;
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            // setLoading(true);
+            const categoriesSnapshot = await firestore().collection('Categories').get();
+            
+            const categories = {};
+            for (const categoryDoc of categoriesSnapshot.docs) {
+              const categoryId = categoryDoc.id;
+              const categoryData = categoryDoc.data();
+              
+              const subCategoriesSnapshot = await firestore().collection('Categories').doc(categoryId).collection('Subcategories').get();
+              const subCategories = {};
+              
+              for (const subCategoryDoc of subCategoriesSnapshot.docs) {
+                const subCategoryId = subCategoryDoc.id;
+                const subCategoryData = subCategoryDoc.data();
+                
+                const optionalSubCategoriesSnapshot = await firestore().collection('Categories').doc(categoryId).collection('Subcategories').doc(subCategoryId).collection('Subcategories').get();
+                const optionalSubCategories = {};
+                
+                for (const optionalSubCategoryDoc of optionalSubCategoriesSnapshot.docs) {
+                  const optionalSubCategoryId = optionalSubCategoryDoc.id;
+                  const optionalSubCategoryData = optionalSubCategoryDoc.data();
+                  
+                  const productsSnapshot = await firestore().collection('Categories').doc(categoryId).collection('Subcategories').doc(subCategoryId).collection('Subcategories').doc(optionalSubCategoryId).collection('Products').get();
+                  const products = productsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                  
+                  optionalSubCategories[optionalSubCategoryId] = {
+                    ...optionalSubCategoryData,
+                    products
+                  };
+                }
+                
+                const productsSnapshot = await firestore().collection('Categories').doc(categoryId).collection('Subcategories').doc(subCategoryId).collection('Products').get();
+                const products = productsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                
+                subCategories[subCategoryId] = {
+                  ...subCategoryData,
+                  optionalSubCategories,
+                  products
+                };
+              }
+              
+              categories[categoryId] = {
+                ...categoryData,
+                subCategories
+              };
+            }
+            
+            setData(categories);
+          } catch (err) {
+            console.error('Error fetching data: ', err);
+            setError(err);
+          } finally {
+            setLoading(false);
+          }
+        };
+    
+        fetchData();
+      }, []);
 
 
     const modalHomeVisibility = () => {
@@ -31,21 +121,18 @@ export function useHooks() {
         setModalLogoutVisible(!modalLogoutVisible);
     };
 
-    const data = [
-        { label: 'Large', value: '1' },
-        { label: 'Medium', value: '2' },
-        { label: 'Small', value: '3' },
-    ];
-
-    const handlePressItem = (item, index) => {
-        // Check if the item is already clicked
-        // if (!clickedItems[item.id]) {
-        // Toggle the clicked state of the notification item
-        setClickedItems(prevClickedItems => ({
-            // ...prevClickedItems,
-            [item.id]: true // Set to true to indicate it's clicked
-        }));
-        // }
+    const handlePressItem = (item) => {
+        setSelectedCategory(item.name);
+        setClickedItems(prevClickedItems => {
+            const updatedItems = {};
+            if (item.name === 'ALL') {
+                updatedItems[item.name] = true;
+                navigate(routes.dummyScreen);
+            } else {
+                updatedItems[item.name] = true;
+            }
+            return updatedItems;
+        });
     };
 
     const handleProductPressItem = (item, index) => {
@@ -58,115 +145,6 @@ export function useHooks() {
         }));
         // }
     };
-    const dummyProductData = [
-        {
-            id: '1',
-            userName: 'cardiologie',
-            subCategory: [
-                {
-                    subName: 'Rythmologie',
-                    products: [
-                        {
-                            productName: 'Bandage',
-                            productImage: appImages.product1,
-                            productPrice: 9.99,
-                            productCapacity: '75ml',
-                            productTablets: '100 tablets'
-                        },
-                        {
-                            productName: 'Stethoscope',
-                            productImage: appImages.product2,
-                            productPrice: 19.99,
-                            productCapacity: 'N/A',
-                            productTablets: 'N/A'
-                        },
-                        {
-                            productName: 'Microscope',
-                            productImage: appImages.product2,
-                            productPrice: 19.99,
-                            productCapacity: 'N/A',
-                            productTablets: 'N/A'
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            id: '2',
-            userName: 'oncologie',
-            subCategory: [
-                {
-                    subName: 'Chemotherapy',
-                    products: [
-                        {
-                            productName: 'Chemo Drug',
-                            productImage: appImages.product3,
-                            productPrice: 199.99,
-                            productCapacity: '50ml',
-                            productTablets: '200 tablets'
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            id: '3',
-            userName: 'cardiologie',
-            subCategory: [
-                {
-                    subName: 'Rythmologie',
-                    products: [
-                        {
-                            productName: 'Bandage',
-                            productImage: appImages.product1,
-                            productPrice: 9.99,
-                            productCapacity: '75ml',
-                            productTablets: '100 tablets'
-                        },
-                        {
-                            productName: 'Stethoscope',
-                            productImage: appImages.product2,
-                            productPrice: 19.99,
-                            productCapacity: 'N/A',
-                            productTablets: 'N/A'
-                        },
-                        {
-                            productName: 'Microscope',
-                            productImage: appImages.product2,
-                            productPrice: 19.99,
-                            productCapacity: 'N/A',
-                            productTablets: 'N/A'
-                        }
-                    ]
-                }
-            ]
-        },
-    ];
-    
-    const dummyData = [
-        {
-            id: '1',
-            userName: 'cardiologie',
-        },
-        {
-            id: '2',
-            userName: 'oncologie',
-        },
-        {
-            id: '3',
-            userName: 'Vasculaire',
-        },
-        {
-            id: '4',
-            userName: 'David Wilson',
-        },
-        {
-            id: '5',
-            userName: 'Eva Green',
-        },
-    ];
-
-
 
     return {
         modalHomeVisible,
@@ -176,12 +154,12 @@ export function useHooks() {
         modalLogoutVisibility,
         modalLogoutVisible,
         handlePressItem,
-        dummyData,
         clickedItems,
         search,
         setSearch,
         handleProductPressItem,
         clickedProductItems,
-        dummyProductData
+        categories,
+        selectedCategory
     }
 }
